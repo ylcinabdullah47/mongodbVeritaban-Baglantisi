@@ -2,7 +2,9 @@ const { MongoClient } = require('mongodb');
 // const mysql = require('mysql')
 const express = require('express');
 const server = express();
-
+// app.use(express.static('public'));
+// const public =require('public')
+server.use(express.static('public'));
 
 // const uri ='mongodb://0.0.0.0:27017/okulDeneme';
 // MongoClient.connect(uri, (err, client) => {
@@ -57,14 +59,14 @@ getData();
 
 
 
-async function addData(data) {
-  let result = await client.connect();
-  let db = result.db(database);
-  let collection = db.collection('okul');
-  let response = await collection.insertOne(data);
-  console.log(response.insertedCount + " veri eklendi");
-}
-addData({ ad: "Ali", soyad: "Yılmaz", yaş: 18 });
+// async function addData(data) {
+//   let result = await client.connect();
+//   let db = result.db(database);
+//   let collection = db.collection('okul');
+//   let response = await collection.insertOne(data);
+//   console.log(response.insertedCount + " veri eklendi");
+// }
+// addData({ ad: "Ali", soyad: "Yılmaz", yaş: 18 });
 //addData({ ad: "abdullah", soyad: "yalçın ", yaş: 45 });
 
 
@@ -135,7 +137,22 @@ server.get('/test', async (req, res) => {
 
 
 
-
+server.delete('/deleteData/:idNo', async (req, res) => {
+  const MongoClient = require('mongodb').MongoClient;
+  const uri = "mongodb://127.0.0.1:27017";
+  const client = new MongoClient(uri);
+  await client.connect();
+  const collection = client.db("okulDeneme").collection("okul");
+  
+  // DELETE işlemi
+  var myquery = { id_no: parseInt(req.params.idNo) };
+  collection.deleteOne(myquery, function(err, obj) {
+    if (err) throw err;
+    console.log("1 document deleted");
+    res.send("1 document deleted");
+    client.close();
+  });
+});
 
 
 server.listen(3000,(req,res)=>{
