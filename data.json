@@ -1,0 +1,16 @@
+[
+    {"ad": "Ali","soyad": "oğul","yaş": 25,"id_no": "10"},
+    {"ad": "Ayşe","soyad": "kalkan", "yaş": 32,"id_no": "11" },
+    {"ad": "ahmet","soyad": "temizer","yaş": 33,"id_no": "12"},
+    {"ad": "zeki","soyad": "evet", "yaş": 44,"id_no": "13" }, 
+    {"ad": "temin","soyad": "hayır","yaş": 56,"id_no": "14"},
+    {"ad": "temel","soyad": "bayram", "yaş": 32,"id_no": "15" }, 
+    {"ad": "hayri","soyad": "ince","yaş": 67,"id_no": "16"},
+    {"ad": "sibel","soyad": "erdoğan", "yaş": 32,"id_no": "17" },     
+    {"ad": "fırat","soyad": "peker","yaş": 12,"id_no": "18"},
+    {"ad": "fatih","soyad": "demricioğlu", "yaş": 33,"id_no": "19" }, 
+    {"ad": "emine","soyad": "özer","yaş": 87,"id_no": "20"},
+    {"ad": "zeynep","soyad": "özdemir", "yaş": 15,"id_no": "21" },
+    {"ad":"abdullah47","soyad":"yalçın","yaş":23}
+       
+]

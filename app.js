@@ -2,6 +2,8 @@ const { MongoClient } = require('mongodb');
 // const mysql = require('mysql')
 const express = require('express');
 const server = express();
+const fs = require('fs');
+const data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
 // app.use(express.static('public'));
 // const public =require('public')
 server.use(express.static('public'));
@@ -58,16 +60,35 @@ async function getData() {
 getData();
 
 
+// await db.collection("okul").insertMany(data);
 
-// async function addData(data) {
-//   let result = await client.connect();
-//   let db = result.db(database);
-//   let collection = db.collection('okul');
-//   let response = await collection.insertOne(data);
-//   console.log(response.insertedCount + " veri eklendi");
-// }
-// addData({ ad: "Ali", soyad: "Yılmaz", yaş: 18 });
-//addData({ ad: "abdullah", soyad: "yalçın ", yaş: 45 });
+// burada data.json dosyasını verileri mongo db aktarılma kodları başlangıcı
+async function insertData() {
+  const MongoClient = require('mongodb').MongoClient;
+  const uri = "mongodb://127.0.0.1:27017";
+  const client = new MongoClient(uri, { useNewUrlParser: true });
+  await client.connect();
+  const db = client.db("okulDeneme");
+  
+  await db.collection("okul").insertMany(data);
+  
+  await client.close();
+}
+
+insertData();
+
+// mongodb toplu veri ekleme son kısmı /
+// NOT:sayfa yenilediğimde tekrar tekrar veriler yükleniyor o sorunu çözeceğim
+
+async function addData(data) {
+  let result = await client.connect();
+  let db = result.db(database);
+  let collection = db.collection('okul');
+  let response = await collection.insertOne(data);
+  console.log(" veri eklendi");
+}
+// addData({ ad: "Ali", soyad: "terim", yaş: 47 });
+// addData({ ad: "ramazan", soyad: "melih ", yaş: 15 });
 
 
 // const connection = mysql.createConnection({
@@ -148,7 +169,7 @@ server.delete('/deleteData/:idNo', async (req, res) => {
   var myquery = { id_no: parseInt(req.params.idNo) };
   collection.deleteOne(myquery, function(err, obj) {
     if (err) throw err;
-    console.log("1 document deleted");
+    // console.log("1 document deleted");
     res.send("1 document deleted");
     client.close();
   });
