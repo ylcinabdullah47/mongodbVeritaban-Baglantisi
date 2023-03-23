@@ -177,7 +177,7 @@ server.delete('/deleteData/:idNo', async (req, res) => {
 
 
 server.listen(3000,(req,res)=>{
-  
+ 
   
   console.log("3000 portu çalışıyor")
 })
