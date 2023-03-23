@@ -194,21 +194,68 @@ server.post('/delete', (req, res) => {
 //put (güncelleme) işlemi yapılacak 
 // burassı hatasız çalışıyor
 
-server.get('/put',(req,res)=>{
-    let id =150;
-    let ad ="yeniisim";
-    let soyad="yeniSoyad47";
+// server.get('/put',(req,res)=>{
+//     let id =150;
+//     let ad ="yeniisim";
+//     let soyad="yeniSoyad47";
 
-    let sqlPut="UPDATE kullanicilar SET ad = ?,soyad= ? WHERE id =?";
-    connection.query(sqlPut,[ad,soyad,id],function (err,result) {
-        if(err) throw err;
-        console.log(result.affectedRows + "record(s) updated");
-        res.send(result)
-        console.log(result)
-    })
-})
+//     let sqlPut="UPDATE kullanicilar SET ad = ?,soyad= ? WHERE id =?";
+//     connection.query(sqlPut,[ad,soyad,id],function (err,result) {
+//         if(err) throw err;
+//         console.log(result.affectedRows + "record(s) updated");
+//         res.send(result)
+//         console.log(result)
+//     })
+// })
 
 // bu kısım update devam kısmı ama burada kullanıcıdan id isteyip bunu  body ekranında yapacağız
+
+server.use(express.urlencoded({ extended: true }));
+
+server.get('/put', (req, res) => {
+  res.send(`
+    <form method="PUT" action="/put">
+      <label for="id">ID:</label>
+      <input type="text" id="id" name="id"><br><br>
+
+      <label for="name">Ad:</label>
+      <input type="text" id="ad" name="ad"><br><br>
+
+      <label for="surname">Soyad:</label>
+      <input type="text" id="soyad" name="soyad"><br><br>
+
+      <label for="age">Yaş:</label>
+      <input type="text" id="yaş" name="yaş"><br><br>
+
+      <input type="submit" value="Güncelle">
+    </form>
+  `);
+});
+server.put('/put', (req, res) => {
+    const id = req.body.id;
+    const ad = req.body.ad;
+    const soyad = req.body.soyad;
+    const yaş = req.body.yaş;
+  
+    // Veritabanında güncelleme işlemini gerçekleştirin
+    // ...
+    const sqlput = 'UPDATE customers SET ad = ?, soyad = ?, yaş = ? WHERE id = ?';
+    const values = [ad, soyad, yaş, id];
+
+connection.query(sqlput,values, (err, result) => {
+  if (err) throw err;
+  console.log(`${result.affectedRows} satır güncellendi`);
+});
+
+connection.end();
+  
+    console.log('Güncellendi');
+    res.send('Güncellendi');
+  });
+
+
+
+
 
 
 
