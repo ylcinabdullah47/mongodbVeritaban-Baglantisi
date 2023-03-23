@@ -96,7 +96,44 @@ const ogrenci={ad:"mehmet akif",yaş:74};
         
     })
 
+   //veri silme işlemi burda yapılıyor
 
+let sqlDelete =`DELETE FROM kullanicilar WHERE id='2'`;
+connection.connect(function (err) {
+    if (err) throw err;
+    connection.query(sqlDelete,function(err,results){
+        if(err) throw err;
+
+
+        //veri silme kontrol
+        if (results.affectedRows > 0) {
+            console.log(results.affectedRows + 'kayıt silindi')}
+   } )
+    
+})
+
+
+//burası hatalı çalışıyor 
+//yapılmak istene kullanıcıdan id numarası alınıp veriyi silmek
+
+// server.get('/delete',(req,res)=>{
+//     let sqlDelete = prompt("silmek istediğiniz id yazın",`DELETE FROM kullanicilar WHERE ıd=''`)
+//     // let sqlDelete =;
+//     connection.connect(function (err) {
+//         if (err) throw err;
+//         connection.query(sqlDelete,function(err,results){
+//             if(err) throw err;
+    
+    
+//             //veri silme kontrol
+//             if (results.affectedRows > 0) {
+//                 console.log(results.affectedRows + 'kayıt silindi')}
+//        } )
+        
+//     })
+
+
+// })
 
     
 // });
@@ -106,6 +143,56 @@ const ogrenci={ad:"mehmet akif",yaş:74};
 //   if (error) throw error;
 //   console.log('New user added with ID ' + results.insertId);
 // });
+
+
+// server.get('/delete',(req,res)=>{
+//     res.send(`
+//     <form action="/delete" method="POST">
+//     <input type="text" name="id" placeholder="Silmek istediğiniz ID'yi girin">
+//     <button type="submit">Sil</button>
+// </form>
+//     `)
+// });
+// server.post('/delete',(req,res)=>{
+    
+//     let id = req.body.id;
+//     let sqlDelete =`DELETE FROM kullanicilar WHERE id ='${id}'`;
+//     connection.query(sqlDelete,function(err,results){
+//         if (err) throw err; 
+//             //veri silem kotrol
+//             if (results.affectedRows >0) {
+//                 console.log(results.affectedRows + 'kayıt silindi')
+//             }
+       
+//     })
+// })
+//bu eklenmedğinde boş değer dönüyor ve program hata veriyor
+const bodyParser = require('body-parser');
+server.use(bodyParser.urlencoded({ extended: true }));
+server.get('/delete', (req, res) => {
+    res.send(`
+        <form action="/delete" method="POST">
+            <input type="text" name="id" placeholder="Silmek istediğiniz ID'yi girin">
+            <button type="submit">Sil</button>
+        </form>
+    `);
+});
+
+server.post('/delete', (req, res) => {
+    let id = req.body.id;
+    let sqlSorgusu = `DELETE FROM kullanicilar WHERE id = '${id}'`;
+    connection.query(sqlSorgusu, function (err, results) {
+        if (err) throw err;
+        // Veri silme kontrolü
+        if (results.affectedRows > 0) {
+            console.log(results.affectedRows + ' kayıt silindi.');
+        }
+    });
+});
+
+
+
+
 
 
 
